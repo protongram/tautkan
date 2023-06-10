@@ -1,0 +1,103 @@
+{%include "header.html"%}
+
+<nav class="navbar navbar-dark bg-dark fixed-top p-2">Tautkan Visual Editor</nav>
+
+
+<input placeholder="Title" id="title" class="form-control mt-5 rounded-pill" type="text">
+<div class="input-group">
+	<input placeholder="/linkname" id="linkRoute" class="form-control my-1 rounded-pill" type="text">
+</div>
+<div class="alert alert-primary align-left p-1">
+	link akan diakses melalui tautkan.my.id/{linkname}</div>
+<div class="input-group">
+<input id="styleCode" class="form-control my-1" placeholder="Kode Tema">
+<button class="btn btn-primary my-1">Cari Tema</button>
+</div>
+<div class="display-6">Tambahkan Link</div>
+<input id="linkText" class="form-control rounded-pill" type="text" placeholder="Link Text">
+<input id="linkHref" class="form-control my-1 rounded-pill" placeholder="Link URL (https://example.com)" type="url">
+<button onclick="pushLink()" class="btn btn-primary w-100 rounded-pill">Push Link</button>
+
+<div id="linkSandbox" class="border-light p-2 rounded">
+
+</div>
+
+<div class="navbar fixed-bottom p-2"><button onclick="sendLinkData()" class="btn btn-primary w-100">
+Upload
+	</button></div>
+
+<script src="jquery-3.6.1.min.js"></script>
+<script>
+	var links = []
+
+
+	function pushLink(){
+		links.push([$('#linkText').val(),$('#linkHref').val()])	
+		listLink()
+	}
+	function remLink(indexLink){
+		links.splice(indexLink,1)
+		listLink()
+	}
+	function listLink(){
+		$('#linkSandbox').html('')
+		for(let lnk in links){
+			$('#linkSandbox').append(`
+<div class="btn-group w-100 my-1 rounded-pill">
+<button class="btn link-btn col-auto btn-primary">${links[lnk][0]}</button>
+<button class="btn col-auto btn-success"> <u>${links[lnk][1]}</u></button>
+<button class="btn btn-danger col-3" onclick="remLink(${lnk})">Remove</button>
+</div>
+		`)
+		}		
+	}
+
+
+
+function packingLink(){
+	var linkPack = {
+		title:$('#title').val(),
+		css:$('#styleCode').val(),
+		link:links
+	}
+	var linkParams = {
+		linkRoute:$('#linkRoute').val(),
+		pagedata:linkPack
+	}
+	return linkParams
+}
+	
+	function seeLinkJson(){
+		alert(JSON.stringify(packingLink(),null,2))
+	}
+
+
+function sendLinkData(){
+seeLinkJson()
+	    $.ajax(  
+        {  
+            type: 'POST',  
+            dataType: 'json',  
+            url: 'http://localhost:3000/newpages',  
+            data: packingLink(),  
+            success:  
+                function (response)  
+                {  
+                    // Generate HTML table.  
+                  alert(JSON.stringify(response));  
+									window.location.href="{{api}}/l/"+linkParams.linkRoute
+                },  
+            error:  
+                function (response)  
+                {  
+                    alert("Error: " + JSON.stringify(response));  
+                }  
+        }); 
+	
+	}
+	window.onerror= function(e){alert(e)}
+
+
+</script>
+
+{%include "footer.html"%}

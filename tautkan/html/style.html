@@ -1,0 +1,14 @@
+{% include "header.html"%}
+<p class="lead">Tautkan Style Showcase</p>
+
+{% for style in styles %}
+<div class="card p-2 shadow-lg my-2 border-0">
+	<p class="lead m-0">{{style.name}}</p>
+
+	theme Code <b>{{style.css}}</b> 
+
+Author : {{style.author}}
+</div>
+{% endfor %}
+
+{% include "footer.html" %}

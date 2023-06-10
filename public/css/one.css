@@ -1,0 +1,18 @@
+body {
+  background: #24283b;
+  color: #c0caf5;
+}
+
+h1#link-title {
+  font-size: 1.3em;
+  font-weight: lighter;
+}
+
+button.link-btn {
+  color: #fff;
+  background: #562fed;
+  border-radius: 1.5rem;
+  padding: 8px;
+}
+
+/*# sourceMappingURL=one.css.map */

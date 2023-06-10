@@ -1,0 +1,17 @@
+{% include "header.html" %}
+<link rel="stylesheet" href="{{api}}/css/one.css" media="all">
+
+
+<h1 class="display-2">
+
+	{{ link.title }}
+
+</h1>
+
+{% for text,href in link.link %}
+	<button class="btn link-btn w-100 my-1 rounded-pill">{{text}}</button>
+{%endfor%}
+
+
+
+{% include "footer.html" %}
